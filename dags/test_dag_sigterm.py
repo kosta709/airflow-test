@@ -47,3 +47,19 @@ start >>  [long_task("p1", 10, dag),
            long_task("p5", 3, dag) ,
            long_task("p6", 5, dag) ] >> downstream_task >> end
 
+dag_error = DAG(
+    "Test-Error",
+    default_args=default_args,
+    schedule_interval=schedule_interval,
+    max_active_runs=1,
+)
+start_e = DummyOperator(task_id=f'start', dag=dag_error)
+end_e = DummyOperator(task_id='end', dag=dag_error)
+downstream_task_e = long_task("downstream_task", 10, dag_error)
+start_e >>  [long_task("p1", 10, dag_error),
+           long_task("p2", 1, dag_error) ,
+           long_task("p3-error", 2, dag_error) ,
+           long_task("p4", 4, dag_error) ,
+           long_task("p5", 3, dag_error) ,
+           long_task("p6", 5, dag_error) ] >> downstream_task_e >> end_e
+

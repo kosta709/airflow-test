@@ -14,6 +14,10 @@ def do_something(task_id, duration_seconds):
     #task_id = kwargs["task_id"][0], 
     #   duration_seconds = kwargs["duration_seconds"][0],
     log(f"Starting task_id={task_id} - duration_seconds={duration_seconds}")
+    if "error" in task_id:
+         log(f"Error task_id={task_id}")
+         raise Exception("TEST Exception - task name contains error")
+        
     time.sleep(duration_seconds)
     log(f"Finish task_id={task_id} - duration_seconds={duration_seconds}")
 
